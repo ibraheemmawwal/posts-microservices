@@ -1,0 +1,58 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: ibmawwal/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
+    - image: ibmawwal/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: ibmawwal/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: ibmawwal/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: ibmawwal/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: ibmawwal/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
